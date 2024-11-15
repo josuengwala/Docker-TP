@@ -19,7 +19,6 @@ Le projet est organisé en plusieurs dossiers :
 Clonez le repository et placez-vous dans le dossier du projet :
 
 - git clone https://github.com/josuengwala/Docker-TP.git
-- cd todo-app-flask-reactjs
 
 2. Configurer les Dockerfiles
 Les Dockerfiles sont déjà créés dans les dossiers respectifs :
