@@ -24,7 +24,8 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     # Flask sqlalchemy
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "data.db")
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://user:password@mysql:3306/mydatabase"
+
     # Flask jwt extended
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
 
@@ -33,4 +34,4 @@ class TestingConfig(Config):
     # Enable testing mode
     TESTING = True
     # Flask sqlalchemy
-    SQLALCHEMY_DATABASE_URI = "sqlite:///"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://user:password@mysql:3306/mydatabase"

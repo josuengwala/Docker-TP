@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend_container
+    environment:
+      - DATABASE_URL=mysql+pymysql://user:password@mysql:3306/mydatabase
+    depends_on:
+      - mysql
+    networks:
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend_container
+    environment:
+      - REACT_APP_API_URL=http://backend.localhost
+    networks:
+      - frontend
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: rootpassword
+    depends_on:
+      - mysql
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+  frontend:

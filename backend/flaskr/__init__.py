@@ -23,6 +23,9 @@ def create_app(testing_config=None):
     api.init_app(app)
     cors.init_app(app)
 
+    with app.app_context():
+        db.create_all()  
+
     @jwt.expired_token_loader
     def expired_token_callback(jwt_header, jwt_payload):
         return (
